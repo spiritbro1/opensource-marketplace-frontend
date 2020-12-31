@@ -22,7 +22,7 @@
     :disabled="disabled"
     :ownedRepo="false"
     :amountRefresh="amountRefresh"
-      :refreshRepo="getPrivateRepo"
+      :getAllRepo="getAllRepo"
       :listRepo="privateRepo"
       :paypalToken="paypalToken"
       @sell-repo="sellRepo($event._id, $event.amount)"
@@ -32,6 +32,7 @@
       <v-col cols="4" class="text-h4 font-weight-bold">Owned Repo</v-col>
     </v-row>
     <DashboardRepo :amountRefresh="amountRefresh" :disabled="disabled" :ownedRepo="true" :paypalToken="paypalToken" :listRepo="ownedRepo" />
+    <DashboardRepoAll :dialog="dialog" :allRepo="allRepo" />
     <v-snackbar v-model="snackbarAmount">
       the amount shouldn't be negative or zero
     </v-snackbar>
@@ -42,21 +43,25 @@
 import Cookies from 'js-cookie'
 import DashboardInfo from '@/components/dashboard_components/DashboardInfo.vue'
 import DashboardRepo from '@/components/dashboard_components/DashboardRepo.vue'
+import DashboardRepoAll from '@/components/dashboard_components/DashboardRepoAll.vue'
 import { Component, Vue, Prop } from 'nuxt-property-decorator'
 import {configs} from '@/utils/configs.js'
 @Component({
   components: {
     DashboardInfo,
     DashboardRepo,
+        DashboardRepoAll,
   },
 })
 export default class MyStore extends Vue {
   @Prop({ required: true }) readonly login!: boolean
+  public dialog: boolean=false
   public username: string = ''
   public profilePhoto: string = ''
   public snackbarAmount: boolean = false
   public paypalToken: boolean = false
   public privateRepo: Array<object> = []
+  public allRepo: Array<object> = []
   public ownedRepo: Array<object> = []
   public paypalBalance: number = 0
   public amountRefresh:number=0
@@ -94,12 +99,13 @@ this.disabled=false
 
 
   }
-  async getPrivateRepo() {
+  async getAllRepo() {
     this.disabled=true
     const token = Cookies.get('token')
     const url = configs.get_all_repo_url
     const { data } = await this.$axios.get(`${url}?token=${token}`)
-    this.privateRepo = data.data
+    this.allRepo = data.data
+    this.dialog=true
     this.disabled=false
   }
   async sellRepo(_id: string, amount: number) {

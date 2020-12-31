@@ -106,13 +106,12 @@ export default class MyStore extends Vue {
     window.location.reload()
   }
   async mounted() {
-console.log(configs)
     const token = Cookies.get('token')
     const ownedRepoUrl = configs.get_owned_repo_url
     const url = configs.for_sale_repo_url
     try {
-      const { data } = await this.$axios.get(`${url}?token=${token}`)
-      const ownedRepo = await this.$axios.get(`${ownedRepoUrl}?token=${token}`)
+      const { data } = await this.$axios.get(`${url}${token?"?token="+token:""}`)
+      const ownedRepo = await this.$axios.get(`${ownedRepoUrl}${token?"?token="+token:""}`)
 
       this.forSale = data.data.data.map((a:any) => {
         if (

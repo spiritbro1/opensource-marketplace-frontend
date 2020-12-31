@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row class="mb-2" v-if="refreshRepo"
-      ><v-btn @click="refreshRepo" :disabled="disabled">Refresh Repo List</v-btn></v-row
+      ><v-btn @click="getAllRepo" :disabled="disabled">SELL REPO</v-btn></v-row
     >
     <v-row>
       <v-card
@@ -80,6 +80,10 @@ export default class MyStore extends Vue {
     @Prop({ required: true }) readonly disabled!: boolean
 
   public amount: number=this.amountRefresh
+  @Emit()
+  getAllRepo() {
+    
+  }
   @Emit()
   sellRepo(_id: string, amount: number) {
     return { _id, amount }
