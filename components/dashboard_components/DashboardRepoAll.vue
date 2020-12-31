@@ -2,8 +2,7 @@
 <v-row justify="center">
       <v-dialog
         v-model="dialog"
-        persistent
-        max-width="600px"
+                max-width="600px"
       >
       <v-card>
           <v-card-title>
@@ -15,24 +14,24 @@
     max-width="344"
     outlined
     :key="index"
-v-for="(item, index) in items"
+v-for="(item, index) in allRepo"
   >
     <v-list-item three-line>
       <v-list-item-content>
         <div class="overline mb-4">
-          OVERLINE
+          {{item.isPrivate?"PRIVATE":"PUBLIC"}}
         </div>
         <v-list-item-title class="headline mb-1">
-          Headline 5
+          {{item.name}}
         </v-list-item-title>
-        <v-list-item-subtitle>Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle>
+        <v-list-item-subtitle>{{item.description}}</v-list-item-subtitle>
       </v-list-item-content>
 
       <v-list-item-avatar
         tile
         size="80"
         color="grey"
-      ></v-list-item-avatar>
+      ><v-img :src="item.openGraphImageUrl"/></v-list-item-avatar>
     </v-list-item>
 
     <v-card-actions>
@@ -40,8 +39,9 @@ v-for="(item, index) in items"
         outlined
         rounded
         text
+        :disabled="disabled"
       >
-        Button
+        SELL
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -52,9 +52,11 @@ v-for="(item, index) in items"
       dark
       large
       color="cyan"
+      :disabled="!pageInfo.hasPreviousPage||disabled"
+      @click="getAllRepo(undefined,pageInfo.startCursor)"
     >
-      <v-icon dark>
-        fab fa-arrow-left
+      <v-icon>
+        fas fa-arrow-left
       </v-icon>
     </v-btn>
                 <v-btn
@@ -63,9 +65,11 @@ v-for="(item, index) in items"
       dark
       large
       color="cyan"
+      :disabled="!pageInfo.hasNextPage||disabled"
+      @click="getAllRepo(pageInfo.endCursor,undefined)"
     >
-      <v-icon dark>
-        fab fa-arrow-right
+      <v-icon>
+        fas fa-arrow-right
       </v-icon>
     </v-btn>
             </v-row>
@@ -82,7 +86,12 @@ import { Component, Vue, Prop, Emit } from 'nuxt-property-decorator'
 export default class MyStore extends Vue {
   @Prop({ required: true }) readonly dialog!: void
   @Prop({ required: true }) readonly allRepo!: void
-
+  @Prop({ required: true }) readonly pageInfo!: void
+  @Prop({ required: true }) readonly disabled!: void
+@Emit()
+  getAllRepo(after: string,before:string) {
+    return { after,before }
+  }
 }
 </script>
 

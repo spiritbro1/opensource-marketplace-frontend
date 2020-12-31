@@ -16,13 +16,13 @@
       @connect="connectPaypal"
     />
     <v-row justify="space-between">
-      <v-col cols="4" class="text-h4 font-weight-bold">Private Repo List</v-col>
+      <v-col cols="4" class="text-h4 font-weight-bold">For Sell Repo List</v-col>
     </v-row>
-    <DashboardRepo
+    <DashboardForSell
     :disabled="disabled"
     :ownedRepo="false"
     :amountRefresh="amountRefresh"
-      :getAllRepo="getAllRepo"
+      @get-all-repo="getAllRepo"
       :listRepo="privateRepo"
       :paypalToken="paypalToken"
       @sell-repo="sellRepo($event._id, $event.amount)"
@@ -31,8 +31,8 @@
     <v-row justify="space-between">
       <v-col cols="4" class="text-h4 font-weight-bold">Owned Repo</v-col>
     </v-row>
-    <DashboardRepo :amountRefresh="amountRefresh" :disabled="disabled" :ownedRepo="true" :paypalToken="paypalToken" :listRepo="ownedRepo" />
-    <DashboardRepoAll :dialog="dialog" :allRepo="allRepo" />
+    <DashboardOwned :amountRefresh="amountRefresh" :disabled="disabled" :ownedRepo="true" :paypalToken="paypalToken" :listRepo="ownedRepo" />
+    <DashboardRepoAll :disabled="disabled" @get-all-repo="getAllRepo($event.after, $event.before)" :pageInfo="pageInfo" :dialog="dialog" :allRepo="allRepo" />
     <v-snackbar v-model="snackbarAmount">
       the amount shouldn't be negative or zero
     </v-snackbar>
@@ -42,14 +42,16 @@
 <script lang="ts">
 import Cookies from 'js-cookie'
 import DashboardInfo from '@/components/dashboard_components/DashboardInfo.vue'
-import DashboardRepo from '@/components/dashboard_components/DashboardRepo.vue'
+import DashboardForSell from '@/components/dashboard_components/DashboardForSell.vue'
+import DashboardOwned from '@/components/dashboard_components/DashboardOwned.vue'
 import DashboardRepoAll from '@/components/dashboard_components/DashboardRepoAll.vue'
 import { Component, Vue, Prop } from 'nuxt-property-decorator'
 import {configs} from '@/utils/configs.js'
 @Component({
   components: {
     DashboardInfo,
-    DashboardRepo,
+    DashboardForSell,
+    DashboardOwned,
         DashboardRepoAll,
   },
 })
@@ -66,6 +68,7 @@ export default class MyStore extends Vue {
   public paypalBalance: number = 0
   public amountRefresh:number=0
   public disabled:boolean=false;
+  public pageInfo:object={};
   logout() {
     Cookies.remove('token')
     window.location.href = '/'
@@ -99,12 +102,23 @@ this.disabled=false
 
 
   }
-  async getAllRepo() {
+  async getAllRepo(after:string,before:string):Promise<void> {
     this.disabled=true
     const token = Cookies.get('token')
     const url = configs.get_all_repo_url
-    const { data } = await this.$axios.get(`${url}?token=${token}`)
-    this.allRepo = data.data
+
+    if(this.allRepo.length===0){
+const { data } = await this.$axios.get(`${url}?token=${token}`)
+this.allRepo = data.data.nodes
+this.pageInfo= data.data.pageInfo
+    }else{
+const { data } = await this.$axios.get(`${url}?token=${token}${before?`&before=${before}`:""}${after?`&after=${after}`:""}`)
+this.allRepo = data.data.nodes
+this.pageInfo= data.data.pageInfo
+    }
+
+
+
     this.dialog=true
     this.disabled=false
   }
@@ -155,9 +169,9 @@ this.disabled=false
       alert('please wait until username shown')
     }
     this.disabled=false
-    if(this.privateRepo.length>0){
-this.getPrivateRepo()
-    }
+//     if(this.privateRepo.length>0){
+// this.getPrivateRepo()
+//     }
 
   }
 }
