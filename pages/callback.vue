@@ -13,6 +13,11 @@ export default class MyStore extends Vue {
   async mounted() {
     if (this.$route.query.token) {
       Cookies.set('token', this.$route.query.token)
+      if(Cookies.get('redirect')){
+        const redirect=Cookies.get('redirect');
+        window.location.href=`${redirect}`;
+        return
+      }
       window.location.href = '/'
     } else {
       const token = Cookies.get('token')
@@ -23,7 +28,7 @@ export default class MyStore extends Vue {
       if (data.status) {
         window.location.href = '/dashboard'
       } else {
-        window.location.href = '/error'
+        window.location.href = '/dashboard?error=save_paypal'
       }
     }
   }

@@ -29,8 +29,8 @@
       @get-all-repo="getAllRepo"
       :listRepo="forSale"
       :paypalToken="paypalToken"
-      @sell-repo="sellRepo($event._id, $event.amount)"
-      @unlist-repo="unlistRepo($event._id)"
+      @sell-repo="sellRepo($event.name, $event.amount)"
+      @unlist-repo="unlistRepo($event.repo_id)"
     />
     <v-row justify="space-between">
       <v-col cols="4" class="text-h4 font-weight-bold">Owned Repo</v-col>
@@ -44,7 +44,6 @@
     />
     <DashboardRepoAll
       :disabled="disabled"
-      @unlist-repo="unlistRepo($event.id)"
       @list-repo="listRepo($event.item)"
       @get-all-repo="getAllRepo($event.after_, $event.before_)"
       :pageInfo_="pageInfo_"
@@ -137,11 +136,11 @@ export default class MyStore extends Vue {
     this.dialog = true
     this.disabled = false
   }
-  async sellRepo(_id: string, amount: number) {
+  async sellRepo(name: string, amount: number) {
     // console.log(amount)
     this.disabled = true
     if (Number(amount) === 0 || Number(amount) < 0 || !amount) {
-      console.log(amount)
+
       this.snackbarAmount = true
       this.disabled = false
       return
@@ -150,7 +149,7 @@ export default class MyStore extends Vue {
       const url = configs.sell_repo_url
 
       const { data } = await this.$axios.post(`${url}?token=${token}`, {
-        _id,
+        name,
         amount,
       })
       this.amountRefresh = 0
@@ -187,7 +186,7 @@ export default class MyStore extends Vue {
     if (this.username.trim() !== '') {
       const url = configs.disconnect_paypal_url
       const token = Cookies.get('token')
-      this.$axios.post(`${url}?token=${token}`)
+     await this.$axios.post(`${url}?token=${token}`)
       this.paypalToken = false
     } else {
       alert('please wait until username shown')
@@ -200,7 +199,7 @@ export default class MyStore extends Vue {
   async getforSale() {
     this.disabled = true
     const token = Cookies.get('token')
-    const url = configs.for_sale_repo_url
+    const url = configs.get_for_sale_url
     const { data } = await this.$axios.get(`${url}?token=${token}`)
     this.forSale = data.data
     this.disabled = false

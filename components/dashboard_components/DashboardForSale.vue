@@ -44,17 +44,17 @@
                 outlined
                 prefix="$"
                 :disabled="!paypalToken"
-                v-model="amount"
+                v-model="item.amount"
               ></v-text-field>
             </v-col>
             <v-col class="d-flex mt-2 justify-end">
               <v-btn
-                @click="sellRepo(item._id, amount)"
+                @click="sellRepo(item.name, item.amount)"
                 color="red"
                 v-if="item.sell === 'UNLIST'&&!ownedRepo"
                 :disabled="!paypalToken||disabled"
                 >SELL</v-btn
-              ><v-btn :disabled="!paypalToken||disabled" v-if="item.sell === 'SELL'&&!ownedRepo" @click="unlistRepo(item._id)"
+              ><v-btn :disabled="!paypalToken||disabled" v-if="item.sell === 'SELL'&&!ownedRepo" @click="unlistRepo(item.repo_id)"
                 >UNLIST</v-btn
               >
               <v-btn v-if="ownedRepo" target="_blank" :href="item.url"
@@ -84,12 +84,12 @@ export default class MyStore extends Vue {
 
   }
   @Emit()
-  sellRepo(_id: string, amount: number) {
-    return { _id, amount }
+  sellRepo(name: string, amount: number) {
+    return { name, amount }
   }
   @Emit()
-  unlistRepo(_id: string) {
-    return { _id }
+  unlistRepo(repo_id: string) {
+    return { repo_id }
   }
 }
 </script>
