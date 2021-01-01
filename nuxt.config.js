@@ -6,7 +6,6 @@ export default {
   env: {
     github_client_id: process.env.github_client_id,
     paypal_client_id:process.env.paypal_client_id
-
   },
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
