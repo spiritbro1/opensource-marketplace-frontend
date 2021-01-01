@@ -4,10 +4,8 @@ export default {
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'static',
   env: {
-    github_client_id: process.env.github_client_id ,
-    paypal_client_id:process.env.paypal_client_id,
-    url:process.env.url,
-    prefix:process.env.prefix
+    github_client_id: process.env.github_client_id,
+    paypal_client_id:process.env.paypal_client_id
 
   },
   // Global page headers (https://go.nuxtjs.dev/config-head)
