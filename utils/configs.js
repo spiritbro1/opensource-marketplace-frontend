@@ -1,6 +1,6 @@
 const configs={}
-configs.url=process.env.url?process.env.url:"http://localhost:4000";
-configs.prefix=process.env.prefix?process.env.prefix:"";
+configs.url=process.env.url;
+configs.prefix=process.env.prefix;
 configs.github_client_id=process.env.github_client_id
 configs.paypal_client_id=process.env.paypal_client_id
 configs.save_paypal_url=`${configs.url}${configs.prefix}/save-paypal`
