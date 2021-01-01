@@ -3,7 +3,13 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'static',
+  env: {
+    github_client_id: process.env.github_client_id ,
+    paypal_client_id:process.env.paypal_client_id,
+    url:process.env.url,
+    prefix:process.env.prefix
 
+  },
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     titleTemplate: '%s ',
