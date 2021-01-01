@@ -8,7 +8,7 @@ export default {
     paypal_client_id:process.env.paypal_client_id,
     url:process.env.url,
     prefix:process.env.prefix,
-
+  },
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     titleTemplate: '%s ',
