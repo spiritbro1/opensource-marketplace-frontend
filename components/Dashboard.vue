@@ -187,7 +187,7 @@ export default class MyStore extends Vue {
     if (this.username.trim() !== '') {
       const url = configs.disconnect_paypal_url
       const token = Cookies.get('token')
-      this.$axios.post(`${url}?token=${token}`)
+     await this.$axios.post(`${url}?token=${token}`)
       this.paypalToken = false
     } else {
       alert('please wait until username shown')
