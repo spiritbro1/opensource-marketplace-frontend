@@ -23,7 +23,7 @@ export default class MyStore extends Vue {
       if (data.status) {
         window.location.href = '/dashboard'
       } else {
-        window.location.href = '/error'
+        window.location.href = '/dashboard?error=save_paypal'
       }
     }
   }
