@@ -36,13 +36,16 @@ v-for="(item, index) in allRepo"
 
     <v-card-actions>
       <v-btn
-        outlined
+        v-if="!item.added"
         rounded
-        text
+
+        color="blue"
         :disabled="disabled"
+        @click="listRepo(item)"
       >
-        SELL
+        LIST REPO
       </v-btn>
+
     </v-card-actions>
   </v-card>
             <v-row justify="center" class="mt-2">
@@ -52,8 +55,8 @@ v-for="(item, index) in allRepo"
       dark
       large
       color="cyan"
-      :disabled="!pageInfo.hasPreviousPage||disabled"
-      @click="getAllRepo(undefined,pageInfo.startCursor)"
+      :disabled="!pageInfo_.hasPreviousPage||disabled"
+      @click="getAllRepo(undefined,pageInfo_.startCursor)"
     >
       <v-icon>
         fas fa-arrow-left
@@ -65,8 +68,8 @@ v-for="(item, index) in allRepo"
       dark
       large
       color="cyan"
-      :disabled="!pageInfo.hasNextPage||disabled"
-      @click="getAllRepo(pageInfo.endCursor,undefined)"
+      :disabled="!pageInfo_.hasNextPage||disabled"
+      @click="getAllRepo(pageInfo_.endCursor,undefined)"
     >
       <v-icon>
         fas fa-arrow-right
@@ -84,14 +87,19 @@ v-for="(item, index) in allRepo"
 import { Component, Vue, Prop, Emit } from 'nuxt-property-decorator'
 @Component
 export default class MyStore extends Vue {
-  @Prop({ required: true }) readonly dialog!: void
-  @Prop({ required: true }) readonly allRepo!: void
-  @Prop({ required: true }) readonly pageInfo!: void
-  @Prop({ required: true }) readonly disabled!: void
+  @Prop({ required: true }) readonly dialog!: boolean
+  @Prop({ required: true }) readonly allRepo!: Array<object>
+  @Prop({ required: true }) readonly pageInfo_!: object
+  @Prop({ required: true }) readonly disabled!: boolean
 @Emit()
-  getAllRepo(after: string,before:string) {
-    return { after,before }
+  getAllRepo(after_: string,before_:string) {
+    return { after_,before_ }
   }
+  @Emit()
+  listRepo(item:object) {
+    return { item}
+  }
+ 
 }
 </script>
 

@@ -12,8 +12,9 @@ configs.unlist_repo_url=`${configs.url}${configs.prefix}/unlist-repo`
 configs.sell_repo_url=`${configs.url}${configs.prefix}/sell-repo`
 configs.get_all_repo_url=`${configs.url}${configs.prefix}/get-all-repo`
 configs.get_profile_url=`${configs.url}${configs.prefix}/get-profile`
-configs.get_for_sell_url=`${configs.url}${configs.prefix}/get-for-sale-repo`
+configs.get_for_sale_url=`${configs.url}${configs.prefix}/get-for-sale-repo`
 configs.get_owned_repo_url=`${configs.url}${configs.prefix}/get-owned-repo`
 configs.get_paypal_url=`${configs.url}${configs.prefix}/get-paypal`
+configs.list_repo_url=`${configs.url}${configs.prefix}/list-repo`
 
 module.exports={configs}
