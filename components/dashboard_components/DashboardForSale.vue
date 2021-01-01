@@ -15,7 +15,7 @@
               <v-list-item-title>{{ item.name }}</v-list-item-title>
             </v-list-item-content>
 
-            <v-row align="center" justify="end"> Private </v-row>
+            <v-row align="center" justify="end"> {{item.isPrivate?"Private":"Public"}} </v-row>
           </v-list-item>
         </v-card-title>
 
