@@ -17,5 +17,4 @@ configs.get_owned_repo_url=`${configs.url}${configs.prefix}/get-owned-repo`
 configs.get_paypal_url=`${configs.url}${configs.prefix}/get-paypal`
 configs.list_repo_url=`${configs.url}${configs.prefix}/list-repo`
 configs.repo_detail_url=`${configs.url}${configs.prefix}/repo-detail`
-
 module.exports={configs}
