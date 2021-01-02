@@ -3,7 +3,7 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   // Target (https://go.nuxtjs.dev/config-target)
   server: {
-    port: 8000, // default: 3000
+    port: 8080, // default: 3000
     host: '0.0.0.0' // default: localhost
   },
   target: 'static',
