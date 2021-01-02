@@ -1,7 +1,8 @@
 spec:
-  name: opensource-marketplace
+  name: opensource-marketplace-frontend
   services:
   - name: opensource-marketplace-frontend
+    environment_slug: node-js
     git:
       branch: main
       repo_clone_url: https://github.com/spiritbro1/opensource-marketplace-frontend
