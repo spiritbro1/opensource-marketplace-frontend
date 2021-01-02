@@ -6,7 +6,7 @@ export default {
     port: 8080, // default: 3000
     host: '0.0.0.0' // default: localhost
   },
-  target: 'static',
+  target: 'server',
   env: {
     github_client_id: process.env.github_client_id,
     paypal_client_id:process.env.paypal_client_id,
