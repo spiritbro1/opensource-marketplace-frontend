@@ -1,13 +1,16 @@
 spec:
-  name: opensource-marketplace-frontend
-  services:
+  name: opensource-marketplace
+  static_sites:
   - name: opensource-marketplace-frontend
     environment_slug: node-js
     git:
       branch: main
       repo_clone_url: https://github.com/spiritbro1/opensource-marketplace-frontend
+    github:
+      repo: spiritbro1/opensource-marketplace-frontend
+      branch: main
+      deploy_on_push: true
     build_command: yarn generate
-    run_command: yarn start
     envs:
     - key: github_client_id
       value: "your_github_client_id"
