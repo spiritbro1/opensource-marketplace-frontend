@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "nuxt-ts",
-    "build": "nuxt-ts build",
-    "start": "serve -s dist -l tcp://0.0.0.0:${PORT:-8080} -n",
+    "build": "rm -r _static 2>/dev/null; nuxt-ts build && nuxt-ts generate && mv dist _static && (rm _static/README.md || true)",
+    "start": "serve -s _static -l tcp://0.0.0.0:${PORT:-8080} -n",
     "generate": "nuxt-ts generate",
     "lint:js": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "lint": "yarn lint:js",
