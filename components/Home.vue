@@ -47,7 +47,7 @@
       >
         <v-img height="250" :src="item.openGraphImageUrl"></v-img>
 
-        <v-card-title><a style="text-decoration:none;color:black;" :href="`/detail/${item.username}/${item.name}`">{{ item.name }}</a></v-card-title>
+        <v-card-title><a style="text-decoration:none;color:black;" :href="`/${item.username}/${item.name}`">{{ item.name }}</a></v-card-title>
 
         <v-card-text>
           <div>{{ item.description }}</div>

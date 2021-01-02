@@ -2,7 +2,7 @@
   <v-row justify="center" align="center" :class="['text-h1']"
     >
   <v-card
-    :loading="loading"
+
     class="mx-auto my-12"
     max-width="1000"
   >
@@ -36,6 +36,7 @@
 
     <v-card-actions>
       <v-btn
+         v-if="item.username !== username_"
         color="deep-purple lighten-2"
         text
         :disabled="disabled"
@@ -43,6 +44,18 @@
       >
         BUY NOW
       </v-btn>
+
+        <v-btn
+        v-if="item.username === username_"
+              :disabled="disabled"
+                class="d-flex justify-end"
+                color="deep-purple lighten-2"
+                :href="item.url"
+                target="_blank"
+                text
+              >
+                GO TO URL
+              </v-btn>
     </v-card-actions>
   </v-card>
 </v-row>
@@ -55,8 +68,15 @@ import axios from 'axios'
 @Component
 export default class MyStore extends Vue {
 public disabled:boolean=false
-mounted(){
+public username_:string=""
+async mounted(){
   Cookies.remove("redirect")
+  if(Cookies.get("token")){
+        const token=Cookies.get("token")
+        const _url = configs.get_profile_url
+        const profile = await this.$axios.get(`${_url}?token=${token}`)
+        this.username_ = profile.data.data.login
+      }
 }
   async asyncData({ params }:any) {
 
@@ -64,6 +84,8 @@ mounted(){
       const name = params.name
       const url=configs.repo_detail_url
       const {data:item}=await axios.post(`${url}`,{username,name})
+
+
       return { item }
     }
 async buyNow(id:any,username:string,name:string) {
