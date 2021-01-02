@@ -2,17 +2,17 @@ spec:
   name: opensource-marketplace
   services:
   - name: opensource-marketplace-frontend
-   git:
-     branch: main
-     repo_clone_url: https://github.com/spiritbro1/opensource-marketplace-frontend
-   build_command: yarn generate
-   run_command: yarn start
-   envs:
-   - key: github_client_id
-     value: "your_github_client_id"
-   - key: paypal_client_id
-     value: "your_paypal_client_id"
-   - key: url
-     value: ${APP_URL}
-   - key: prefix
-     value: /api
+    git:
+      branch: main
+      repo_clone_url: https://github.com/spiritbro1/opensource-marketplace-frontend
+    build_command: yarn generate
+    run_command: yarn start
+    envs:
+    - key: github_client_id
+      value: "your_github_client_id"
+    - key: paypal_client_id
+      value: "your_paypal_client_id"
+    - key: url
+      value: ${APP_URL}
+    - key: prefix
+      value: /api
