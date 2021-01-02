@@ -69,8 +69,16 @@ import axios from 'axios'
 export default class MyStore extends Vue {
 public disabled:boolean=false
 public username_:string=""
+public item:object={}
 async mounted(){
   Cookies.remove("redirect")
+  const username = this.$route.query.username
+      const name = this.$route.query.name
+      const url=configs.repo_detail_url
+      const {data}=await axios.post(`${url}`,{username,name})
+this.item=data
+
+
   if(Cookies.get("token")){
         const token=Cookies.get("token")
         const _url = configs.get_profile_url
@@ -78,16 +86,7 @@ async mounted(){
         this.username_ = profile.data.data.login
       }
 }
-  async asyncData({ params }:any) {
 
-      const username = params.username
-      const name = params.name
-      const url=configs.repo_detail_url
-      const {data:item}=await axios.post(`${url}`,{username,name})
-
-
-      return { item }
-    }
 async buyNow(id:any,username:string,name:string) {
 
     this.disabled=true;
